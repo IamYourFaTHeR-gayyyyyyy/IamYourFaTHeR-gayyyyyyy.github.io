@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>🌟 豬哥亮：數學神與羽球王的降臨 🌟</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+TC:wght@900&display=swap');
+
+        /* 1. 五彩繽紛動態背景 */
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* 防止捲動條破壞美感 */
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab, #ff00ff, #ffff00);
+            background-size: 400% 400%;
+            animation: gradientBG 5s ease infinite;
+            font-family: 'Noto Sans TC', sans-serif;
+            height: 100vh;
+            cursor: crosshair;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 2. 閃爍特效 */
+        .glitter-text {
+            animation: glitter 0.2s linear infinite alternate;
+            text-shadow: 0 0 20px #fff, 0 0 40px #ff00de, 0 0 60px #ff00de;
+        }
+
+        @keyframes glitter {
+            from { opacity: 1; transform: scale(1); }
+            to { opacity: 0.8; transform: scale(1.1) rotate(2deg); color: #00ffff; }
+        }
+
+        /* 3. 「具有生命」的元素樣式 */
+        .life-card {
+            position: absolute;
+            width: 300px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+            border: 5px solid #fff;
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.5);
+            color: #fff;
+            user-select: none;
+            transition: border-color 0.1s;
+        }
+
+        .life-card:hover {
+            border-color: #ff00ff;
+            background: rgba(255, 0, 255, 0.3);
+            z-index: 999;
+        }
+
+        h1 {
+            font-size: 5rem;
+            text-align: center;
+            margin-top: 5vh;
+            color: #fff;
+            font-family: 'Black Han Sans', sans-serif;
+        }
+
+        .img-box {
+            width: 100%;
+            height: 150px;
+            background: #000;
+            margin-bottom: 10px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        img { width: 100%; height: auto; filter: hue-rotate(90deg); animation: rotateHue 2s infinite linear; }
+
+        @keyframes rotateHue {
+            to { filter: hue-rotate(360deg); }
+        }
+
+        /* 滿天星效果 */
+        #particles {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<h1 class="glitter-text">豬哥亮：地表最強傳說</h1>
+
+<div class="life-card" id="card1">
+    <div class="img-box"><img src="https://picsum.photos/400/300?random=1" alt="數學"></div>
+    <h2>🔥 競賽戰神</h2>
+    <p>數學APMO初選 PR99</p>
+    <p>AMC 12: 139.5分 (Outstanding)</p>
+</div>
+
+<div class="life-card" id="card2">
+    <div class="img-box"><img src="https://picsum.photos/400/300?random=2" alt="羽球"></div>
+    <h2>🏸 羽球幻影</h2>
+    <p>羽球社靈魂人物</p>
+    <p>場上的暴力美學，殺球即藝術！</p>
+</div>
+
+<div class="life-card" id="card3">
+    <div class="img-box"><img src="https://picsum.photos/400/300?random=3" alt="證明"></div>
+    <h2>🧬 獨創證明</h2>
+    <p>等周定理：豬氏獨創證明法</p>
+    <p>數學教學：把凡人變成天才！</p>
+</div>
+
+<script>
+    const cards = document.querySelectorAll('.life-card');
+    const config = Array.from(cards).map(() => ({
+        x: Math.random() * (window.innerWidth - 300),
+        y: Math.random() * (window.innerHeight - 200),
+        vx: (Math.random() - 0.5) * 10,
+        vy: (Math.random() - 0.5) * 10
+    }));
+
+    // 讓元素動起來 (不受控制的移動)
+    function animate() {
+        cards.forEach((card, i) => {
+            let c = config[i];
+            c.x += c.vx;
+            c.y += c.vy;
+
+            // 撞牆反彈
+            if (c.x <= 0 || c.x >= window.innerWidth - 300) c.vx *= -1;
+            if (c.y <= 0 || c.y >= window.innerHeight - 250) c.vy *= -1;
+
+            card.style.left = c.x + 'px';
+            card.style.top = c.y + 'px';
+            
+            // 隨機抖動感
+            card.style.transform = `rotate(${(Math.random()-0.5)*10}deg)`;
+        });
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    // 背景粒子系統 (增加閃光感)
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    function drawSparkles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for(let i=0; i<50; i++) {
+            ctx.fillStyle = `hsl(${Math.random()*360}, 100%, 50%)`;
+            ctx.beginPath();
+            ctx.arc(Math.random()*canvas.width, Math.random()*canvas.height, Math.random()*5, 0, Math.PI*2);
+            ctx.fill();
+        }
+        setTimeout(() => requestAnimationFrame(drawSparkles), 50);
+    }
+    drawSparkles();
+
+    // 點擊驚喜
+    window.onclick = () => {
+        document.body.style.filter = `invert(${Math.random()})`;
+        alert("豬哥亮太強啦！你被震懾到了嗎？");
+        setTimeout(() => document.body.style.filter = 'none', 100);
+    };
+</script>
+
+</body>
+</html>
